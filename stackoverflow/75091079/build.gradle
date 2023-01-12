@@ -16,6 +16,8 @@ dependencies {
 }
 
 compileJava.ajc.options.compilerArgs << "-showWeaveInfo"
+compileJava.ajc.options.compilerArgs << "-verbose"
+compileTestJava.ajc.options.compilerArgs << "-showWeaveInfo"
 compileTestJava.ajc.options.compilerArgs << "-verbose"
 
 test {

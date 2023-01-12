@@ -12,6 +12,4 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 public @interface ShouldBeWoven {
 
-  Class<?>[] value() default {};
-
 }

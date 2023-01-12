@@ -1,23 +1,22 @@
 package com.example;
 
-import com.example.MyClass.WovenClassInMain;
 import org.junit.jupiter.api.Test;
 
 class MyAspectTest {
 
   @ShouldBeWoven
-  static class WovenClassInTest {
+  static class TargetClassInTest {
 
   }
 
   @Test
   void instantiateWovenClassInMain() {
-    new WovenClassInMain();
+    new TargetClassInMain();
   }
 
   @Test
   void instantiateWovenClassInTest() {
-    new WovenClassInTest();
+    new TargetClassInTest();
   }
 
 }
