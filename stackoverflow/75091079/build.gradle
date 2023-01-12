@@ -15,10 +15,9 @@ dependencies {
   testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
-compileJava.ajc.options.compilerArgs << "-showWeaveInfo"
-compileJava.ajc.options.compilerArgs << "-verbose"
-compileTestJava.ajc.options.compilerArgs << "-showWeaveInfo"
-compileTestJava.ajc.options.compilerArgs << "-verbose"
+compileJava.ajc.options.compilerArgs << "-showWeaveInfo -verbose"
+compileTestJava.ajc.options.compilerArgs << "-showWeaveInfo -verbose"
+compileTestJava.ajc.options.aspectpath.from sourceSets.main.output
 
 test {
   useJUnitPlatform()
