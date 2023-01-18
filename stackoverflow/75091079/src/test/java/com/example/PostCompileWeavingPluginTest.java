@@ -40,6 +40,19 @@ class PostCompileWeavingPluginTest {
             id 'java'
             id 'io.freefair.aspectj.post-compile-weaving' version '6.6.1'
           }
+          
+          sourceSets {
+            another {
+              java {
+                  compileClasspath += main.output
+                  runtimeClasspath += main.output
+              }
+            }
+          }
+          
+          configurations {
+            anotherImplementation.extendsFrom implementation
+          }
                     
           repositories {
             mavenCentral()
@@ -54,8 +67,15 @@ class PostCompileWeavingPluginTest {
           compileJava.ajc.options.compilerArgs << "-showWeaveInfo"
           compileJava.ajc.options.compilerArgs << "-verbose"
           compileTestJava.ajc.options.compilerArgs << "-showWeaveInfo"
+          compileAnotherJava.ajc.options.compilerArgs << "-verbose"
+          compileAnotherJava.ajc.options.compilerArgs << "-showWeaveInfo"
           compileTestJava.ajc.options.compilerArgs << "-verbose"
+          compileAnotherJava.ajc.options.aspectpath.from sourceSets.main.output
           compileTestJava.ajc.options.aspectpath.from sourceSets.main.output
+          
+          compileTestJava {
+            dependsOn anotherClasses
+          }
                               
           test {
             useJUnitPlatform()
@@ -116,6 +136,19 @@ class PostCompileWeavingPluginTest {
                     
           @ShouldBeWoven
           public class TargetClassInMain {
+                    
+          }
+          """);
+    }
+
+    var targetClassInAnotherSourceFile = new File(rootDir, "src/another/java/com/example/TargetClassInAnother.java");
+    targetClassInAnotherSourceFile.getParentFile().mkdirs();
+    try(var writer = new FileWriter(targetClassInAnotherSourceFile)) {
+      writer.write("""
+          package com.example;
+                    
+          @ShouldBeWoven
+          public class TargetClassInAnother {
                     
           }
           """);
